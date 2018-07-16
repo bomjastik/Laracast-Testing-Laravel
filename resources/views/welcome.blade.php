@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Laravel 5
                 </div>
 
                 <div class="links">
@@ -88,6 +88,7 @@
                     <a href="https://laravel-news.com">News</a>
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="{{ url('feedback') }}">Click me</a>
                 </div>
             </div>
         </div>

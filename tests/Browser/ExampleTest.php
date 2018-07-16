@@ -12,12 +12,16 @@ class ExampleTest extends DuskTestCase
      * A basic browser test example.
      *
      * @return void
+     * @throws \Throwable
      */
     public function testBasicExample()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertSee('Laravel');
+                ->assertSeeLink('Click me')
+                ->clickLink('Click me')
+                ->assertSee("You've been clicked, punk.")
+                ->assertPathIs('/feedback');
         });
     }
 }

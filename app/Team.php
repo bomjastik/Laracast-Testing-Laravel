@@ -26,9 +26,9 @@ class Team extends Model
 
     public function addMany(Collection $members)
     {
-        $members->each(function ($member, $key) {
-            $this->add($member);
-        });
+        $this->guardAgainstTooManyMembers($members->count());
+
+        $this->members()->saveMany($members);
     }
 
     public function remove(User $member)
@@ -53,9 +53,16 @@ class Team extends Model
         return $this->members()->count();
     }
 
-    private function guardAgainstTooManyMembers(): void
+    public function maximumSize()
     {
-        if ($this->count() >= $this->size) {
+        return $this->size;
+    }
+
+    private function guardAgainstTooManyMembers(int $newMembersCount = 1)
+    {
+        $newTeamCount = $this->count() + $newMembersCount;
+
+        if ($newTeamCount > $this->maximumSize()) {
             throw new \Exception;
         }
     }

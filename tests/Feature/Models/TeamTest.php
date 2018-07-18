@@ -47,6 +47,18 @@ class TeamTest extends TestCase
     }
 
     /** @test */
+    public function it_has_a_maximum_size_when_addming_multiple_members_at_once()
+    {
+        $team = factory(Team::class)->create(['size' => 2]);
+
+        $users = factory(User::class, 3)->create();
+
+        $this->expectException('Exception');
+
+        $team->addMany($users);
+    }
+
+    /** @test */
     public function it_can_add_multiple_members_at_once()
     {
         $team = factory(Team::class)->create();
@@ -56,12 +68,6 @@ class TeamTest extends TestCase
         $team->addMany($users);
 
         $this->assertSame(2, $team->count());
-
-        $this->expectException('Exception');
-
-        $users = factory(User::class, 4)->create();
-
-        $team->addMany($users);
     }
 
     /** @test */
@@ -99,7 +105,7 @@ class TeamTest extends TestCase
 
         $this->assertSame(3, $team->count());
     }
-    
+
     /** @test */
     public function it_can_remove_all_members_at_once()
     {

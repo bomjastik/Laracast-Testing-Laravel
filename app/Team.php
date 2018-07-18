@@ -17,37 +17,35 @@ class Team extends Model
         return $this->hasMany(User::class);
     }
 
-    public function add($members)
+    public function add(User $member)
     {
         $this->guardAgainstTooManyMembers();
 
-        if ($members instanceof User) {
-            $members = [$members];
-        }
-
-        if ($this->isCountable($members)) {
-            $this->members()->saveMany($members);
-        }
+        $this->members()->save($member);
     }
 
-    public function remove($members)
+    public function addMany(Collection $members)
     {
-        if ($members instanceof User) {
-            $members = [$members];
-        }
+        $members->each(function ($member, $key) {
+            $this->add($member);
+        });
+    }
 
-        if ($this->isCountable($members)) {
-            foreach ($members as $member) {
-                $member->team()->dissociate()->save();
-            }
-        }
+    public function remove(User $member)
+    {
+        $member->leaveTeam();
+    }
+
+    public function removeMany(Collection $members)
+    {
+        $members->each(function ($member, $key) {
+            $this->remove($member);
+        });
     }
 
     public function clean()
     {
-        foreach ($this->members as $member) {
-            $member->team()->dissociate()->save();
-        }
+        $this->removeMany($this->members);
     }
 
     public function count()
@@ -60,14 +58,5 @@ class Team extends Model
         if ($this->count() >= $this->size) {
             throw new \Exception;
         }
-    }
-
-    /**
-     * @param $members
-     * @return bool
-     */
-    private function isCountable($members): bool
-    {
-        return $members instanceof Collection || is_array($members);
     }
 }

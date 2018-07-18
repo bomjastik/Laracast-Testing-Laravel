@@ -31,4 +31,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function leaveTeam()
+    {
+        $this->team()->dissociate()->save();
+    }
 }

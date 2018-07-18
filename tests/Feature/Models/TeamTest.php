@@ -45,7 +45,7 @@ class TeamTest extends TestCase
 
         $team->add($user3);
     }
-    
+
     /** @test */
     public function it_can_add_multiple_members_at_once()
     {
@@ -53,15 +53,15 @@ class TeamTest extends TestCase
 
         $users = factory(User::class, 2)->create();
 
-        $team->add($users);
+        $team->addMany($users);
 
         $this->assertSame(2, $team->count());
 
-//        $this->expectException('Exception');
-//
-//        $users = factory(User::class, 3)->create();
-//
-//        $team->add($users);
+        $this->expectException('Exception');
+
+        $users = factory(User::class, 4)->create();
+
+        $team->addMany($users);
     }
 
     /** @test */
@@ -71,7 +71,7 @@ class TeamTest extends TestCase
 
         $users = factory(User::class, 5)->create();
 
-        $team->add($users);
+        $team->addMany($users);
 
         $this->assertSame(5, $team->count());
 
@@ -87,15 +87,15 @@ class TeamTest extends TestCase
 
         $users = factory(User::class, 3)->create();
 
-        $team->add($users);
+        $team->addMany($users);
 
         $users = factory(User::class, 2)->create();
 
-        $team->add($users);
+        $team->addMany($users);
 
         $this->assertSame(5, $team->count());
 
-        $team->remove($users);
+        $team->removeMany($users);
 
         $this->assertSame(3, $team->count());
     }
@@ -107,7 +107,7 @@ class TeamTest extends TestCase
 
         $users = factory(User::class, 3)->create();
 
-        $team->add($users);
+        $team->addMany($users);
 
         $this->assertSame(3, $team->count());
 

@@ -11,7 +11,14 @@
 |
 */
 
+use Illuminate\Support\Facades\Mail;
+
 Route::get('/', function () {
+    Mail::raw('Hello world', function ($message) {
+            $message->to('foo@bar.com');
+        $message->from('bar@foo.com');
+    });
+
     return view('welcome');
 });
 

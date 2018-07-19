@@ -31,7 +31,10 @@
         "psr-4": {
             "Tests\\": "tests/"
         },
-        "files": ["tests/helpers/functions.php"]
+        "files": [
+            "tests/helpers/functions.php",
+            "tests/Traits/MailTracking.php"
+        ]
     },
     "extra": {
         "laravel": {
